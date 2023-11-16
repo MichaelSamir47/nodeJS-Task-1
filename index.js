@@ -64,15 +64,15 @@ app.post('/login',async(req,res)=>{
 
 // API Register
 app.post('/register',async(req,res)=>{
-  const errors =  validationResult(req)
-  if (!errors.isEmpty()){
-  return res.status(400).json({ errors: errors.array()})
-  }
-  let encryptPass = await bcrypt.hash(req.body.password,10) 
-  // return res.send(encryptPass)
-  const savedData = {...req.body,password:encryptPass}
-  const user= await User.create(savedData)
-  user?res.json({message:"Register has been succesfully"}):res.json("message:hadbeen")
+  // const errors =  validationResult(req)
+  // if (!errors.isEmpty()){
+  // return res.status(400).json({ errors: errors.array()})
+  // }
+  // let encryptPass = await bcrypt.hash(req.body.password,10) 
+  // // return res.send(encryptPass)
+  // const savedData = {...req.body,password:encryptPass}
+  // const user= await User.create(savedData)
+  // user?res.json({message:"Register has been succesfully"}):res.json("message:hadbeen")
   
   // const token = jwt.sign({id:newUser. _id, email: newUser. email},"test");
   // return res.send({
@@ -82,6 +82,28 @@ app.post('/register',async(req,res)=>{
   //   password:encryptPass,
   //   errors:errors
   // })
+
+
+  const { username, email, password } = req.body;
+
+  try {
+    // Hash the password before saving it
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user in the database
+    const newUser = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+    });
+
+    // Respond with the newly created user
+    return res.status(201).json(newUser);
+  } catch (error) {
+    console.error('Error registering user:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+
 })
 
 
@@ -104,7 +126,7 @@ app.post('/create',async(req,res)=>{
 app.put('/post/:postId', async (req, res) => {
   const postId = req.params.postId;
   const updatedData = req.body; 
-  
+
   // Assuming the updated data is sent in the request body
   try {
     // Find the post by ID
