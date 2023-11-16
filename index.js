@@ -87,6 +87,14 @@ app.post('/register',async(req,res)=>{
   const { username, email, password } = req.body;
 
   try {
+    // Check if the email already exists
+    const existingUser = await User.findOne({ where: { email } });
+
+    if (existingUser) {
+      // Email already exists
+      return res.status(400).json({ message: 'Email already registered' });
+    }
+
     // Hash the password before saving it
     const hashedPassword = await bcrypt.hash(password, 10);
 
