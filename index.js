@@ -1,7 +1,8 @@
 const bodyParser = require('body-parser')
 const express = require('express')
 const app = express()
-const jwt = require('jsonwebtoken')
+// const jwt = require('jsonwebtoken')
+const { generateToken } = require('./utils/jwt');
 const bcrypt = require("bcryptjs")
 const{body,validationResult} = require("express-validator")
 app.use(bodyParser.json())
@@ -10,10 +11,11 @@ const port = 2020;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
 const Posts =require('./consts.js')
 //middleware
 const {titleChecker}   = require('./middlewares/titlechecker.js')
+const { verifyToken } = require('./middlewares/verifyToken.js');
+
 //mysql DataBase
 const db = require('./config/db.js')
 // Test database connection
@@ -49,11 +51,12 @@ app.post('/login',async(req,res)=>{
     if (!passwordMatch) {
       return res.status(401).json({ message: 'Invalid password' });
     }
-
+    
     // If the user and password are valid, you might generate a token here for authentication
-
+    const token = generateToken(user);
+    return res.status(200).json({  message: 'Login successful',token })
     // For simplicity, you can respond with a success message
-    return res.status(200).json({ message: 'Login successful' });
+  
   } catch (error) {
     console.error('Login error:', error);
     return res.status(500).json({ message: 'Internal server error' });
@@ -117,7 +120,7 @@ app.post('/register',async(req,res)=>{
 
 
 // API Create posts
-app.post('/create',async(req,res)=>{
+app.post('/create',verifyToken,async(req,res)=>{
   const errors =  validationResult(req)
   if (!errors.isEmpty()){
   return res.status(400).json({ errors: errors.array()})
@@ -131,7 +134,7 @@ app.post('/create',async(req,res)=>{
 
 
 // API Edit post
-app.put('/post/:postId', async (req, res) => {
+app.put('/post/:postId',verifyToken, async (req, res) => {
   const postId = req.params.postId;
   const updatedData = req.body; 
 
@@ -160,7 +163,7 @@ app.put('/post/:postId', async (req, res) => {
 
 
 // API Delete post
-app.delete('/post/:postId', async (req, res) => {
+app.delete('/post/:postId',verifyToken, async (req, res) => {
   const postId = req.params.postId;
   console.log(req.body)
   try {
@@ -185,7 +188,7 @@ app.delete('/post/:postId', async (req, res) => {
 
 
 // API Get Posts
-app.get('/getposts',async(req,res)=>{
+app.get('/getposts',verifyToken,async(req,res)=>{
   try {
     // Fetch all posts from the database
     const posts = await Post.findAll();
