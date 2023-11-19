@@ -32,6 +32,30 @@ db.authenticate()
   //create table
   db.sync({ force: false})
 
+//EJS views 
+app.set("view engine","ejs")
+
+const Item  = require('./models/item.js');
+
+const upload = require('./middlewares/uploadImg.js')
+
+// const uploads = multer({ dest: './uploads/' });
+//Api upload file EJS/
+app.get('/', (req, res) => {
+  res.render('upload');
+});
+app.post('/upload',upload,async (req, res) => {
+//  console.log(req.files);
+res.render('uploaded')
+const savedData = {
+  destination:req.file.destination,
+  path:req.file.path,
+  filename:req.file.filename
+}
+const item = await Item.create(savedData)
+});
+
+
 
 // API login
 app.post('/login',async(req,res)=>{
@@ -162,29 +186,6 @@ app.put('/post/:postId',verifyToken, async (req, res) => {
 
 
 
-// API Delete post
-app.delete('/post/:postId',verifyToken, async (req, res) => {
-  const postId = req.params.postId;
-  console.log(req.body)
-  try {
-    // Find the post by ID
-    const post = await Post.findByPk(postId);
-
-    // Check if the post exists
-    if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
-    }
-
-    // Delete the post
-    await post.destroy();
-
-    // Respond with a success message
-    return res.status(200).json({ message: 'Post deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting post:', error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-});
 
 
 // API Get Posts
@@ -200,3 +201,5 @@ app.get('/getposts',verifyToken,async(req,res)=>{
     return res.status(500).json({ message: 'Internal server error' });
   }
 })
+
+1234

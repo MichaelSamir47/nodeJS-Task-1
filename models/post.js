@@ -16,7 +16,7 @@ const POST = sequelize.define('POST', {
   
   },
   description: {
-    type: DataTypes.STRING(100),
+    type: DataTypes.STRING,
     allowNull: false,
 
   },
