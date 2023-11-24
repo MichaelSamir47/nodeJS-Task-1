@@ -36,7 +36,11 @@ h2 {
 p {
   color: #333;
 }
-
+span{
+  color: #2ecc71;
+  width: 100%;
+  display: block;
+}
     </style>
   
 </head>
@@ -45,7 +49,7 @@ p {
     <div class="container">
         <div class="message-box">
             <h2>File Uploaded Successfully!</h2>
-            <p>Your file has been successfully uploaded.</p>
+            <p>Your file: <span><%=name %></span> has been successfully uploaded.</p>
         </div>
     </div>
 </body>

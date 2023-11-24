@@ -1,17 +1,20 @@
 // middleware/upload.js
 const multer = require('multer');
 
-const storage = multer.diskStorage({
+const storageGallery = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads');
+    console.log(req)
+    cb(null, 'uploads/gallery');
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
+    // cb(null, Date.now() + '-' + file.originalname);
+    cb(null, file.originalname);
   },
 });
 
-const upload = multer({ storage: storage }).single("file")
-// const upload = multer({ storage: storage })
+const gallery = multer({ storage: storageGallery, limits: { fileSize: 5 * 1024 * 1024 } })
+
+module.exports = { gallery };
 
 
-module.exports = upload;
+

@@ -1,8 +1,12 @@
 const Sequelize = require('sequelize');
 module.exports = new Sequelize('task-db','root','', {
-  host: 'localhost',
+  host: '127.0.0.1',
   dialect: 'mysql',
-  operatorsAliases: false,
+  port: 3306,
+  // operatorsAliases: false,
+  dialectOptions: {
+    connectTimeout: 60000, // Set the timeout to 60 seconds or adjust as needed
+  },
   pool: {
     max: 5,
     min: 0,
@@ -10,3 +14,7 @@ module.exports = new Sequelize('task-db','root','', {
     idle: 10000
   },
 });
+
+
+// get local Ip 
+ //ipconfig getifaddr en0
