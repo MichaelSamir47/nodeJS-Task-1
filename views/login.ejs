@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Upload Form with Thumbnail Preview</title>
+  <!-- <link rel="stylesheet" href="styles.css"> -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center; 
+      height: 100vh;
+      
+      /* width: 250%; */
+    
+    }
+    .dash{
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .txtField{
+      
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .txtField label{
+      display: flex;
+      align-items: start;
+      justify-content: start; 
+    }
+    .txtField input{
+      height: 20px;
+      width: 100%;
+    }
+
+    .upload-form {
+      /* width: 20%; */
+      /* background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+      /* width: 100%; */
+    }
+
+    .file-label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .file-input {
+      display: block;
+      
+      margin-bottom: 20px;
+    }
+
+    .thumbnail-container {
+      margin-bottom: 20px;
+
+    }
+
+
+    .upload-button {
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .upload-button:hover {
+      background-color: #2980b9;
+    }
+
+    .thumbnail {
+      width: 100%;
+    }
+
+    @element '[type=file]' {
+      $next: after {
+        content: 'eval("
+          files[0] ? files[0].name: 'Choose a file'
+          ")';
+
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <form action="/auth/login" method="post"  class="upload-form">
+      <div class="dash">
+        <h1>Add New Post</h1>
+        <div class="txtField">
+          <label for="title">Email:</label>
+          <input   type="text" id="title" name="email"  " class="file-input" " require >
+          <label for="description">Password:</label>
+          <textarea   id="description" type="text" name="password"   class="file-input" " require ></textarea>
+        </div>
+    
+
+      <div class="thumbnail-container">
+        <img src="" id="thumbnail" class="thumbnail">
+      </div>
+      <button type="submit" class="upload-button">Upload</button>
+    </form>
+  </div>
+  </div>
+
+  <!-- <script>
+    function previewFile() {
+      var preview = document.getElementById('thumbnail');
+      var fileInput = document.getElementById('file');
+      var file = fileInput.files[0];
+      var reader = new FileReader();
+
+      reader.onloadend = function () {
+        preview.src = reader.result;
+        // Add the 'has-thumbnail' class when a file is selected
+        preview.classList.add('has-thumbnail');
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
+      } else {
+        preview.src = "";
+        // Remove the 'has-thumbnail' class when no file is selected
+        preview.classList.remove('has-thumbnail');
+      }
+    }
+  </script> -->
+</body>
+
+</html>

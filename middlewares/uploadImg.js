@@ -12,7 +12,7 @@ const storageGallery = multer.diskStorage({
   },
 });
 
-const gallery = multer({ storage: storageGallery, limits: { fileSize: 5 * 1024 * 1024 } })
+const gallery = multer({ storage: storageGallery, limits: { fileSize: 50 * 1024 * 1024 } })
 
 module.exports = { gallery };
 

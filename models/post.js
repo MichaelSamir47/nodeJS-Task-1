@@ -1,8 +1,11 @@
 // Post Model
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../config/db'); 
-
-const POST = sequelize.define('POST', {
+// const { Sequelize, DataTypes } = require('sequelize');
+// const sequelize = require('../config/db'); 
+// const Image = require('./image');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
+const Image = require('./image');
+const Post = sequelize.define('Post', {
   // Columns
   id: {
     type: DataTypes.INTEGER,
@@ -18,9 +21,11 @@ const POST = sequelize.define('POST', {
   description: {
     type: DataTypes.STRING,
     allowNull: false,
-
   },
+  
   
 });
 
-module.exports = POST;
+Post.hasMany(Image, { as: 'images', foreignKey: 'postId' });
+
+module.exports = Post;

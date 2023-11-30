@@ -17,4 +17,5 @@ module.exports = new Sequelize('task-db','root','', {
 
 
 // get local Ip 
- //ipconfig getifaddr en0
+
+// ipconfig getifaddr en0

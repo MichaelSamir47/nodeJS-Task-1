@@ -1,7 +1,7 @@
 // models/image.js
-const { DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Item = require('./item'); // Ensure the correct path to the Item model
+const Post   = require('./post'); // Ensure the correct path to the Item model
 
 const Image = sequelize.define('Image', {
   // Other columns...
@@ -23,13 +23,26 @@ const Image = sequelize.define('Image', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  postId: {
+    type: DataTypes.INTEGER,
+    foreignKey: true,
+    allowNull: false,
+    
+  },
 });
 
-// Make sure Item is a Sequelize model instance
-if (Item && Item.prototype && Item.prototype instanceof sequelize.Sequelize.Model) {
-  Image.belongsTo(Item, { as: 'item', foreignKey: 'itemId' });
-} else {
-  console.error('Error: Item is not a valid Sequelize model.');
+
+Image.associate = (models)=>{
+  Image.belongsTo(models.Post, { foreignKey: 'postId', onDelete: 'CASCADE' });
 }
+// Define the association with the Post model
+// Image.belongsTo(Post, { foreignKey: 'postId', onDelete: 'CASCADE' });
+
+// Make sure Item is a Sequelize model instance
+// if (Item && Item.prototype && Item.prototype instanceof sequelize.Sequelize.Model) {
+  // Image.belongsTo(Post, { as: 'post', foreignKey: 'imageId' });
+// } else {
+//   console.error('Error: Item is not a valid Sequelize model.');
+// }
 
 module.exports = Image;
